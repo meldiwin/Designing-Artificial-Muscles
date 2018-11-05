@@ -18,10 +18,15 @@ from scipy.integrate.quadpack import quad
 from sympy.polys.polyfuncs  import interpolate
 import scipy.interpolate
 from scipy.interpolate import interp1d
-import serial
+#import serial
 import csv
 import matplotlib.pyplot as plt
 import pandas as pd
+import warnings
+import matplotlib.cbook
+warnings.filterwarnings("ignore",category=matplotlib.cbook.mplDeprecation)
+
+
 
 
 plt.style.use("ggplot")
@@ -63,10 +68,10 @@ num_signals = 1
 #armonics = 10
 
 
-T = input("Enter the periodic time: ")
+T = float(input("Enter the periodic time: "))
 
 
-armonics = input("Enter the number of the harmonics: ")
+armonics = float(input("Enter the number of the harmonics: "))
 
 
 # Fourier Series function
@@ -87,6 +92,7 @@ def fourierSeries(n_max,freq,amp,T_f):
     
     a0 = 0
     partialSums = a0
+    n_max=int(n_max)
     for n in range(1,n_max):
         try:
             #partialSums = partialSums + (amp/(np.pi*n))*np.sin(((freq*np.pi*n)/T)*x)
@@ -120,7 +126,7 @@ T_f_=np.linspace(0,final_time,1000, endpoint=True)
 
 
 
-max_val_T = input("Enter the final value of the measured time in seconds: ")
+max_val_T = float(input("Enter the final value of the measured time in seconds: "))
 
 T_f= np.linspace(0,max_val_T,10000)
 n_max= armonics
@@ -140,8 +146,8 @@ freq_0 = 0
    
 [line] = ax.plot(T_f, fourierSeries(n_max, freq_0, amp_0,T_f), linewidth=2, color='red')
 
-max_v_limit = input("Enter the maximum value of the voltage positive axis: ")
-mini_v_limit = input("Enter the minimum value of the voltage positive axis: ")
+max_v_limit = float(input("Enter the maximum value of the voltage positive axis: "))
+mini_v_limit = float(input("Enter the minimum value of the voltage positive axis: "))
 
 ax.set_xlim([0, max_val_T ])
 ax.set_ylim([mini_v_limit, max_v_limit])
@@ -179,8 +185,8 @@ reset_button = Button(reset_button_ax, 'Reset', color=axis_color, hovercolor='0.
 
 def reset_button_on_clicked(mouse_event):
     f= open("final signal",'w')
-    print "Amplitude Gain: ",  amp_slider.val
-    print "Frequency Gain: ",  freq_slider.val
+    print ("Amplitude Gain: ",  amp_slider.val)
+    print ("Frequency Gain: ",  freq_slider.val)
     
     
     ####### signal  
@@ -197,9 +203,9 @@ def reset_button_on_clicked(mouse_event):
     
     wn = (freq_slider.val*np.pi)/T
     
-    print 'actual frequency is', wn
+    print ('actual frequency is', wn)
     actual_amp= amp_slider.val/(np.pi)
-    print 'actual amp is', actual_amp
+    print ('actual amp is', actual_amp)
     #print final_signal$$
     freq_slider.reset()
     amp_slider.reset()
@@ -265,8 +271,6 @@ def reset_button_on_clicked(mouse_event):
     u=np.zeros(N)*u0
     dudt=np.empty(N)  ### empty vector
 
-
-# Here we assume the desired frequency, and we know the total time, and we know samples for computing the spatial domain, so we can estimate the each time step for the sampled voltage, so we can draw one time frame for sampling, and other time frame for computing spatial domain
 
     
     ##### fixing error 
@@ -375,10 +379,3 @@ reset_button.on_clicked(reset_button_on_clicked)
 
 plt.grid(True)
 plt.show()
-
-### micro python reference
-
-#https://docs.google.com/presentation/d/1RGkT5hFtiu1FMOp0VwN0q-RkZ_kkMYscZMdyq78liSA/edit#slide=id.gd5b15f0a3_5_26
-
-#### ref sampling 
-##https://www.geeksforgeeks.org/analog-digital-conversion/
