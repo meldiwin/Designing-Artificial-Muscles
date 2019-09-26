@@ -156,13 +156,13 @@ ax.set_ylim([mini_v_limit, max_v_limit])
 
 
 # Define an axes area and draw a slider in it
-amp_slider_ax = fig.add_axes([0.25, 0.15, 0.65, 0.03], axisbg=axis_color)
+amp_slider_ax = fig.add_axes([0.25, 0.15, 0.65, 0.03], facecolor=axis_color)
 
 
 amp_slider = Slider(amp_slider_ax, 'Amp', 0.01, 10, valinit=amp_0)
 
 # Draw another slider
-freq_slider_ax = fig.add_axes([0.25, 0.1, 0.65, 0.03], axisbg=axis_color)
+freq_slider_ax = fig.add_axes([0.25, 0.1, 0.65, 0.03], facecolor=axis_color)
 freq_slider = Slider(freq_slider_ax, 'Freq', 0.01, 20, valinit=freq_0)
 
 
